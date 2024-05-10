@@ -90,3 +90,11 @@ change environment variables and run:
 ```
 docker-compose up -d
 ```
+
+Change Mikrotik Firewall Rules
+```
+/ip firewall filter
+add action=accept chain=input src-address-list=access
+add action=drop chain=input in-interface=ether1 src-address-list=block
+add action=drop chain=forward in-interface=ether1 src-address-list=block
+```

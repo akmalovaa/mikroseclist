@@ -1,7 +1,7 @@
 import routeros_api
 from loguru import logger
 
-from microseclist.settings import settings
+from mikroseclist.settings import settings
 
 
 class MikroTikClient:

@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "microseclist"
+name = "mikroseclist"
 version = "0.1.0"
 description = ""
 authors = ["Artur Akmalov <artur@akmalov.com>"]
 readme = "README.md"
-packages = [{include = "microseclist"}]
+packages = [{include = "mikroseclist"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

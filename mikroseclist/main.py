@@ -5,8 +5,8 @@ import requests
 from loguru import logger
 from schedule import every, repeat, run_pending
 
-from microseclist.mikrotik_client import MikroTikClient
-from microseclist.settings import settings
+from mikroseclist.mikrotik_client import MikroTikClient
+from mikroseclist.settings import settings
 
 logger.remove()
 logger.add(sys.stderr, level="INFO", format="{time:DD.MM.YY HH:mm:ss} {level} {message}")

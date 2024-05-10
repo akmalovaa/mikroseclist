@@ -70,10 +70,10 @@ using `docker-compose.yaml`
 
 ```yaml
 services:
-  microseclist:
-    image: microseclist:latest
-    container_name: microseclist
-    command: ["python", "-m", "microseclist.main"]
+  mikroseclist:
+    image: mikroseclist:latest
+    container_name: mikroseclist
+    command: ["python", "-m", "mikroseclist.main"]
     environment:
       MIKROTIK_HOST: ${MIKROTIK_HOST:-'192.168.88.1'}
       MIKROTIK_USER: ${MIKROTIK_USER:-'admin'}

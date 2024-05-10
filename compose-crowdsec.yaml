@@ -46,7 +46,7 @@ services:
         ipv4_address: 172.21.0.2
 
   mikroseclist:
-    image: ${MIKROSECLIST_IMAGE_TAG:-ghcr.io/akmalovaa/mikroseclist}
+    image: ${MIKROSECLIST_IMAGE_TAG:-ghcr.io/akmalovaa/mikroseclist:latest}
     container_name: mikroseclist
     depends_on:
       blocklist:

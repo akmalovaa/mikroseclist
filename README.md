@@ -63,15 +63,15 @@ docker build . -t mikroseclist:latest
 or use github image
 
 ```bash
-docker pull . -t mikroseclist:latest
+docker pull ghcr.io/akmalovaa/mikroseclist:latest
 ```
 
-using `docker-compose.yaml`
+using docker compose - `compose.yaml`
 
 ```yaml
 services:
   mikroseclist:
-    image: mikroseclist:latest
+    image: ghcr.io/akmalovaa/mikroseclist:latest
     container_name: mikroseclist
     command: ["python", "-m", "mikroseclist.main"]
     environment:
@@ -80,21 +80,19 @@ services:
       MIKROTIK_PASSWORD: ${MIKROTIK_PASSWORD:-'password'}
       BLOCKLIST_URL: 'http://blocklist.example.com:41412/security/blocklist?ipv4only'
       SYNC_INTERVAL_MIN: 30
-    volumes:
-      - ./:/srv/
     restart: unless-stopped
 ```
 
 change environment variables and run:
 
-```
+```bash
 docker-compose up -d
 ```
 
 Change Mikrotik Firewall Rules
-```
+```sh
 /ip firewall filter
-add action=accept chain=input src-address-list=access
+add action=accept chain=input src-address-list=access # access list optional
 add action=drop chain=input in-interface=ether1 src-address-list=block
 add action=drop chain=forward in-interface=ether1 src-address-list=block
 ```

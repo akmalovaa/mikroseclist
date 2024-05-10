@@ -1,3 +1,5 @@
+# Install guide https://github.com/akmalovaa/crowdsec-blocklist
+
 services:
   crowdsec:
     image: ${CROWDSEC_IMAGE_TAG:-crowdsecurity/crowdsec:latest}

@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  microseclist:
+    image: microseclist:latest
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    container_name: microseclist
+    command: ["python", "-m", "microseclist.main"]
+    environment:
+      MIKROTIK_HOST: ${MIKROTIK_HOST:-'192.168.88.1'}
+      MIKROTIK_USER: ${MIKROTIK_USER:-'admin'}
+      MIKROTIK_PASSWORD: ${MIKROTIK_PASSWORD:-'password'}
+      BLOCKLIST_URL: ${BLOCKLIST_URL}
+      SYNC_INTERVAL_MIN: 15
+    volumes:
+      - ./:/srv/
+    restart: on-failure

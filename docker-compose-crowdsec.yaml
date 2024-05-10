@@ -1,0 +1,40 @@
+# separate example https://github.com/akmalovaa/crowdsec-blocklist
+version: "3.9"
+
+services:
+  crowdsec:
+    image: ${CROWDSEC_IMAGE_TAG:-crowdsecurity/crowdsec:latest}
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Yekaterinburg
+      COLLECTIONS: "crowdsecurity/linux a1ad/mikrotik crowdsecurity/traefik" # crowdsecurity/nginx fulljackz/proxmox 
+      # ENROLL_KEY: "clomgynlexampletokenn3cd" # Uncomment and insert your token if you want crowdsec dashboard https://app.crowdsec.net
+      # ENROLL_INSTANCE_NAME: "homelab" # Uncomment if you want https://app.crowdsec.net
+    ports:
+      - 8080:8080
+      - 6060:6060
+    volumes:
+      - ./crowdsec/data:/var/lib/crowdsec/data
+      - ./crowdsec/config:/etc/crowdsec
+
+  blocklist:
+    image: ${CROWDSEC_BLOCKLIST_IMAGE_TAG:-crowdsecurity/blocklist-mirror:latest}
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Yekaterinburg
+    ports:
+      - 41412:41412
+    volumes:
+      - ./crowdsec/crowdsec-blocklist-mirror.yaml:/etc/crowdsec/bouncers/crowdsec-blocklist-mirror.yaml
+
+  microseclist:
+    image: microseclist:latest
+    container_name: microseclist
+    command: ["python", "-m", "microseclist.main"]
+    environment:
+      MIKROTIK_HOST: ${MIKROTIK_HOST:-'192.168.88.1'}
+      MIKROTIK_USER: ${MIKROTIK_USER:-'admin'}
+      MIKROTIK_PASSWORD: ${MIKROTIK_PASSWORD:-'password'}
+      BLOCKLIST_URL: 'http://blocklist:41412/security/blocklist?ipv4only'
+      SYNC_INTERVAL_MIN: 15
+    restart: on-failure

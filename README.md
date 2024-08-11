@@ -85,6 +85,8 @@ change environment variables and run:
 docker-compose up -d
 ```
 
+[![crowdsec blocklist](./crowdsec_blocklist/mikroseclist_logs.png)](https://github.com/akmalovaa/mikroseclist)
+
 After first syncing сhange Mikrotik Firewall Rules
 ```sh
 /ip firewall filter

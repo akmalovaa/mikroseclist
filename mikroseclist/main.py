@@ -9,7 +9,7 @@ from mikroseclist.mikrotik_client import MikroTikClient
 from mikroseclist.settings import settings
 
 logger.remove()
-logger.add(sys.stderr, level="INFO", format="{time:DD.MM.YY HH:mm:ss} {level} {message}")
+logger.add(sys.stderr, level=settings.log_level, format="{time:DD.MM.YY HH:mm:ss} {level} {message}")
 
 mikrotik = MikroTikClient(settings.mikrotik_host, settings.mikrotik_user, settings.mikrotik_password)
 

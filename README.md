@@ -69,7 +69,7 @@ services:
   mikroseclist:
     image: ghcr.io/akmalovaa/mikroseclist:latest
     container_name: mikroseclist
-    command: ["python", "-m", "mikroseclist.main"]
+    command: ["python", "-m", "mikroseclist"]
     environment:
       MIKROTIK_HOST: ${MIKROTIK_HOST:-'192.168.88.1'}
       MIKROTIK_USER: ${MIKROTIK_USER:-'admin'}
@@ -85,7 +85,7 @@ change environment variables and run:
 docker-compose up -d
 ```
 
-[![crowdsec blocklist](./crowdsec_blocklist/mikroseclist_logs.png)](https://github.com/akmalovaa/mikroseclist)
+[![crowdsec blocklist](./crowdsec_blocklist/mikroseclist_logs.png)](https://github.com/akmalovaa/mikroseclist/blob/main/crowdsec_blocklist/mikroseclist_logs.png)
 
 After first syncing сhange Mikrotik Firewall Rules
 ```sh

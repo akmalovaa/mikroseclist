@@ -106,9 +106,7 @@ You can override this variables in the `.env` file
 
 You can use default **CrowdSec Blocklist mirror** format without `mikroseclist` service:
 
-This app constantly synchronizes and updates the firewall address list in mikrotik.
-
-Actual dangerous IP addresses will already be in the blocked list
+Actual IP addresses will already be in the blocked list
 
 [CrowdSec Blocklist mirror](https://docs.crowdsec.net/u/bouncers/blocklist-mirror/#installation/)
 
@@ -121,6 +119,6 @@ blocklists:
 ```
 Output lines for mikrotik, format is `/ip|/ipv6 firewall address-list add list={list_name} address={ip} comment="{scenario} for {duration}"`
 
-The list of dangerous IP addresses is very large ~ 25,000, when updated in this way, all addresses are deleted and added again. It's pointless to do this every time you update.
+The list of IP addresses is very large ~ 25,000, when updated in this way, all addresses are deleted and added again. It's pointless to do this every time you update.
 
-This service only allows you to edit changes. Delete something, add something
+This service `mikroseclist` only allows you to edit changes. Add and delete only new addresses, not the entire list

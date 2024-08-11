@@ -21,7 +21,7 @@ class MikroTikClient:
                 ssl_verify=False,
                 plaintext_login=True,
             )
-            logger.info(f"Success connection to host: {self.host}")
+            logger.info(f"Start connection to host: {self.host}")
         except Exception as e:
             logger.error("Exception:", str(e))
 
@@ -30,15 +30,24 @@ class MikroTikClient:
             self.connection.disconnect()
 
     def fetch_address_list(self) -> list:
-        logger.info(f"Fetch firewall address list: {settings.address_list_name}")
+        logger.info(
+            f"Fetch firewall address list: {settings.mikrotik_address_list_name}"
+        )
         block_list: list = []
         if not self.connection:
             self.connect()
 
         if self.connection:
             mikrotik_api = self.connection.get_api()
+            if settings.mikrotik_log_message:
+                mikrotik_api.get_binary_resource("/").call(
+                    "log/info",
+                    {"message": b"Mikroseclist: firewall blocklist synchronization"},
+                )
             list_address = mikrotik_api.get_resource("/ip/firewall/address-list")
-            mikrotik_block_list = list_address.get(list=settings.address_list_name)
+            mikrotik_block_list = list_address.get(
+                list=settings.mikrotik_address_list_name
+            )
             for ip_address in mikrotik_block_list:
                 address = ip_address.get("address")
                 if address:
@@ -61,9 +70,9 @@ class MikroTikClient:
             for ip_address in ip_addresses:
                 try:
                     list_address.add(
-                        list=settings.address_list_name,
+                        list=settings.mikrotik_address_list_name,
                         address=ip_address,
-                        comment=settings.address_list_comment,
+                        comment=settings.mikrotik_address_list_comment,
                     )
                 except routeros_api.exceptions.RouterOsApiCommunicationError as roteros_error:
                     logger.error(f"{ip_address=} already have such entry")
@@ -100,60 +109,3 @@ class MikroTikClient:
 
         self.disconnect()
         logger.info("Finish removing addresses")
-
-    def remove_file(self, file_name: str) -> None:
-        """Before upload remove old file, else failure = file already exists"""
-        logger.debug(f"remove file {file_name}")
-        if not self.connection:
-            self.connect()
-
-        if self.connection:
-            mikrotik_api = self.connection.get_api()
-            mikrotik_files = mikrotik_api.get_resource("/file")
-            for file in mikrotik_files.get():
-                if file["name"] == file_name:
-                    file_id = file["id"]
-                    logger.debug(f"Remove file {file_name} id: {file_id}")
-                    try:
-                        mikrotik_files.remove(id=file_id)
-                    except (
-                        routeros_api.exceptions.RouterOsApiConnectionError
-                    ) as routerError:
-                        logger.error(routerError)
-                    return
-            logger.debug(f"Not found file {file_name}")
-        self.disconnect()
-        return
-
-    def upload_file(self, file_name: str = "upload.txt", content: str = "") -> None:
-        """upload a file with the contents, there are limits files should not be large about 400kb"""
-        logger.debug(f"upload file {file_name}")
-        if not self.connection:
-            self.connect()
-
-        if self.connection:
-            mikrotik_api = self.connection.get_api()
-            mikrotik_files = mikrotik_api.get_resource("/file")
-            try:
-                mikrotik_files.add(name=file_name, contents=content)
-            except Exception as e:
-                logger.error(e)
-        self.disconnect()
-        return
-
-    def import_from_file(self, file_name: str) -> None:
-        """import from a file, like RouterOS command -> import file-name=test.rsc"""
-        logger.debug(f"import file-name={file_name}")
-        if not self.connection:
-            self.connect()
-
-        if self.connection:
-            mikrotik_api = self.connection.get_api()
-            try:
-                mikrotik_api.get_binary_resource("/").call(
-                    "import", {"file-name": file_name.encode("utf-8")}
-                )
-            except Exception as e:
-                logger.error(e)
-        self.disconnect()
-        return

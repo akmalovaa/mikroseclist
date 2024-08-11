@@ -1,5 +1,3 @@
-# Install guide https://github.com/akmalovaa/crowdsec-blocklist
-
 services:
   crowdsec:
     image: ${CROWDSEC_IMAGE_TAG:-crowdsecurity/crowdsec:latest}
@@ -36,7 +34,7 @@ services:
     ports:
       - 41412:41412
     volumes:
-      - ./crowdsec-blocklist-mirror.yaml:/etc/crowdsec/bouncers/crowdsec-blocklist-mirror.yaml
+      - ./blocklist_config.yaml:/etc/crowdsec/bouncers/crowdsec-blocklist-mirror.yaml
     healthcheck:
       test: wget -qO- http://localhost:41412/security/blocklist?ipv4only || exit 1
       start_period: 20s
@@ -45,7 +43,7 @@ services:
       retries: 5
     networks:
       crowdsec_net:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.21.0.12
 
   mikroseclist:
     image: ${MIKROSECLIST_IMAGE_TAG:-ghcr.io/akmalovaa/mikroseclist:latest}
@@ -66,7 +64,7 @@ services:
     restart: unless-stopped
     networks:
       crowdsec_net:
-        ipv4_address: 172.21.0.3
+        ipv4_address: 172.21.0.13
 
 networks:
   crowdsec_net:

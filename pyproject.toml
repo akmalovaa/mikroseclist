@@ -1,17 +1,16 @@
 [tool.poetry]
 name = "mikroseclist"
-version = "0.1.0"
+version = "2.0.0"
 description = ""
 authors = ["Artur Akmalov <artur@akmalov.com>"]
 readme = "README.md"
-packages = [{include = "mikroseclist"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-routeros-api = "^0.17.0"
-requests = "^2.31.0"
-pydantic-settings = "^2.2.1"
-schedule = "^1.2.1"
+python = "^3.12"
+routeros-api = "^0.18.1"
+requests = "^2.32.3"
+pydantic-settings = "^2.4.0"
+schedule = "^1.2.2"
 loguru = "^0.7.2"
 
 

@@ -1,14 +1,12 @@
-version: "3.9"
-
 services:
   mikroseclist:
     image: ghcr.io/akmalovaa/mikroseclist:latest
     container_name: mikroseclist
-    command: ["python", "-m", "mikroseclist.main"]
+    command: ["python", "-m", "mikroseclist"]
     environment:
       MIKROTIK_HOST: ${MIKROTIK_HOST:-'192.168.88.1'}
       MIKROTIK_USER: ${MIKROTIK_USER:-'admin'}
       MIKROTIK_PASSWORD: ${MIKROTIK_PASSWORD:-'password'}
-      BLOCKLIST_URL: 'http://blocklist:41412/security/blocklist?ipv4only'
+      BLOCKLIST_URL: ${BLOCKLIST_URL:-'http://blocklist:41412/security/blocklist?ipv4only'}
       SYNC_INTERVAL_MIN: 15
     restart: on-failure

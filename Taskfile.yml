@@ -1,8 +1,18 @@
-version: "3"
+version: '3'
+
+env:
+  IMAGE_TAG: 'mikroseclist:latest'
 
 tasks:
-  build:
-    desc: "build Dockerfile"
-    dir: "{{.USER_WORKING_DIR}}"
+  cli:
+    aliases: [bash, shell, exec]
+    desc: run temporary container and passthrough current directory
     cmds:
-      - docker build . -t mikroseclist:latest
+      - docker run --rm -it --env-file .env -v .:/srv $IMAGE_TAG bash
+
+  build:
+    cmds:
+      - docker build . -t $IMAGE_TAG
+
+# export PYTHONPATH='/srv/mikroseclist/'
+# python -m mikroseclist.main

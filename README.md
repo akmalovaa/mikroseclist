@@ -2,7 +2,7 @@
 
 [![crowdsec blocklist](./crowdsec_blocklist/crowdsec_blocklist.png)](https://github.com/akmalovaa/mikroseclist)
 
-CrowdSec Blocklist mirror synchronization to RouterOS firewall address list
+RouterOS firewall address list synchronization to CrowdSec Blocklist Mirror 
 
 - [DockerHub crowdsec](https://hub.docker.com/r/crowdsecurity/crowdsec)
 - [DockerHub blocklist-mirror](https://hub.docker.com/r/crowdsecurity/blocklist-mirror)
@@ -99,7 +99,7 @@ add action=drop chain=forward in-interface=ether1 src-address-list=block
 
 https://github.com/akmalovaa/mikroseclist/blob/main/mikroseclist/settings.py
 
-You can override this variables in the .env file
+You can override this variables in the `.env` file
 
 
 ## CrowdSec block lists sync

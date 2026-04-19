@@ -1,17 +1,20 @@
-FROM python:3.12.5-slim
+ARG PYTHON_VERSION=3.14.3
+ARG UV_VERSION=latest
 
-WORKDIR /srv/
+FROM ghcr.io/astral-sh/uv:$UV_VERSION AS uv
 
-COPY pyproject.toml .
-COPY poetry.lock .
+FROM python:$PYTHON_VERSION-slim
 
-RUN apt update && pip install poetry
+ENV PYTHONUNBUFFERED=1
+ENV UV_PROJECT_ENVIRONMENT="/usr/local/"
 
-RUN poetry config virtualenvs.create false
-RUN poetry install
+WORKDIR /srv
 
-RUN apt-get remove -y gcc cmake make libc-dev-bin libc6-dev
-RUN rm -rf /var/lib/apt/lists/* && apt-get autoremove -y && apt-get clean
-RUN pip uninstall pipenv poetry -y
+COPY --from=uv /uv /uvx /bin/
+COPY pyproject.toml uv.lock ./
+
+RUN uv sync --frozen --compile-bytecode --no-install-project --no-install-workspace --python-preference only-system
 
 COPY . .
+
+CMD ["python", "-m", "mikroseclist"]

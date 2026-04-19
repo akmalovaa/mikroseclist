@@ -2,6 +2,7 @@ import pydantic_settings
 
 
 class Settings(pydantic_settings.BaseSettings):
+    model_config = pydantic_settings.SettingsConfigDict(env_file=".env")
     log_level: str = "INFO"
     mikrotik_host: str  = '192.168.88.1'
     mikrotik_user: str  = 'admin'
@@ -9,8 +10,7 @@ class Settings(pydantic_settings.BaseSettings):
     mikrotik_address_list_name: str = "block"
     mikrotik_address_list_comment: str = "github.com/akmalovaa/mikroseclist"
     mikrotik_log_message: bool = True  # mikrotik log notification of the start sync
-    blocklist_url: str = 'http://blocklist:41412/security/blocklist?ipv4only'
-    blocklist_filename: str = "blocklist.txt"
+    blocklist_urls: str = 'http://blocklist:41412/security/blocklist?ipv4only'
     sync_interval_min: int = 30
 
 

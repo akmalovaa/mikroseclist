@@ -1,0 +1,10 @@
+services:
+  mikroseclist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mikroseclist
+    command: ["python", "-m", "mikroseclist"]
+    env_file: .env
+    network_mode: host
+    restart: on-failure:3
